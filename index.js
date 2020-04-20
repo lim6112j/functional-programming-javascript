@@ -132,3 +132,94 @@ const feedbacks = R.map(
 )(grades)
 console.log(feedbackOld)
 console.log(feedbacks)
+
+// functional example
+console.log("######## legacy => functional ")
+class Kosac {
+  constructor(id, name, address) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+  }
+  getName() {
+    return this.name;
+  }
+  getId() {
+    return this.id;
+  }
+  getAddress() {
+    return this.address;
+  }
+}
+const aKosac =new Kosac(1, 'lim', 'gangnam');
+aKosac.id = 2 // serious problem
+console.log(aKosac.id)
+
+const kosacs = [
+  new Kosac(1, 'lim', 'gangnam'),
+  new Kosac(2, 'jen', 'gangnam'),
+  new Kosac(3, 'kang', 'gangnam'),
+  new Kosac(4, 'park', 'ggi'),
+  new Kosac(5, 'ben', 'ggi')
+];
+console.log(kosacs);
+
+function peopleinGangnam(members) {
+  for (let i = 0; i < members.length; i++) {
+    if(members[i].address === 'gangnam') {
+      console.log(members[i])
+    }
+  }
+}
+function peopleinGyonggi(members) {
+  for (let i = 0; i < members.length; i++) {
+    if(members[i].address === 'ggi') {
+      console.log(members[i])
+    }
+  }
+}
+peopleinGangnam(kosacs)
+peopleinGyonggi(kosacs)
+
+// refactoring 1
+console.log('########### refactoring 1############')
+const filtered = kosacs.filter(
+  selector('gangnam')
+);
+
+function selector(address, member) {
+  return (member) => {
+    if(member.address === address) {
+      return true;
+    }
+  }
+}
+
+console.log(filtered)
+
+// refactoring with R
+console.log('#########refactoring 2##############')
+const addressLens = R.lens(R.path(['address']), R.assocPath(['address'])); // getter , setter
+// const addressLens = R.lensProp('address')
+console.log(R.view(addressLens, aKosac))
+const aKosac2 = R.set(addressLens, 'busan', aKosac)
+console.log(aKosac)
+console.log(aKosac2) // immutably copied
+
+const filteredFunc = (address) => { 
+  return kosacs.filter(
+  selector(address)
+  );
+}
+console.log(filteredFunc('gangnam'))
+
+// refactoring 3
+console.log('refactoring 3')
+const filteredHOF = (address, members) => {
+    return members.filter(
+      selector(address)
+    );
+}
+console.log(filteredHOF('ggi', kosacs))
+
+// eventually filteredFinish(filter, kosacs, output)
