@@ -223,3 +223,18 @@ const filteredHOF = (address, members) => {
 console.log(filteredHOF('ggi', kosacs))
 
 // eventually filteredFinish(filter, kosacs, output)
+console.log('########### finishing refactoring ##############')
+const isGangnam = (str) => str.address === 'gangnam' ? true: false;
+
+const gangnamFilter = R.pipe(R.filter(isGangnam), console.log);
+gangnamFilter(kosacs)
+// use foreach
+console.log('######## using foreach')
+function printKosac(members, _selector, log) {
+  members.forEach(function(member) {
+    if(_selector(member)) {
+      log(member)
+    }
+  })
+}
+printKosac(kosacs, isGangnam, console.log)
