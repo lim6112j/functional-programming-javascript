@@ -97,7 +97,8 @@ console.log('######### test passed ##########')
 const grades = [
   {name: 'lim', grade: 99},
   {name: 'ben', grade: 80},
-  {name: 'jane', grade: 65}
+  {name: 'jane', grade: 65},
+  {name: 'park', grade: 77}
 ];
 
 const rules = {
@@ -238,3 +239,28 @@ function printKosac(members, _selector, log) {
   })
 }
 printKosac(kosacs, isGangnam, console.log)
+
+// currying
+function multiply(a) {
+  return (b) => {
+    return (c) => {
+      return a * b * c;
+    }
+  }
+}
+// wrong
+function multiply2(a, b, c) { // b,c not used
+  return (b) => {
+    return (c) => {
+      return a * b * c;
+    }
+  }
+}
+console.log('currying method ', multiply(1)(2)(3)) 
+console.log('currying method ', multiply2(1)(2)(3)) // works why?
+console.log('currying method', multiply2(2,3,4)) // return (b) => {} , not working why?
+// partial function
+const multiplyPartial3 = multiply(3);
+const multiplyPartial23 = multiply2(2, 3);
+console.log('partial function multiply 3* => ', multiplyPartial3(10)(11)); // working
+console.log('partial function multiply 2*3 => ', multiplyPartial23(10)); // not working
