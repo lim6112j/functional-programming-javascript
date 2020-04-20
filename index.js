@@ -1,5 +1,8 @@
 import * as R from 'ramda'
-import expect from 'expect'
+import expect from 'expect';
+import axios from 'axios';
+import { from } from 'rxjs';
+
 // FP: object CRUD with no mutation 
 const obj = {id: '1', name: 'ben', phone: '1231231232'};
 //add
@@ -264,3 +267,8 @@ const multiplyPartial3 = multiply(3);
 const multiplyPartial23 = multiply2(2, 3);
 console.log('partial function multiply 3* => ', multiplyPartial3(10)(11)); // working
 console.log('partial function multiply 2*3 => ', multiplyPartial23(10)); // not working
+
+// axios data
+const randomUsers = []
+const user$ = from(axios.get('https://randomuser.me/api/'));
+user$.subscribe(result => console.log(result.data.results));
