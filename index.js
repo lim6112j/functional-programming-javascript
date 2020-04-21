@@ -1,7 +1,9 @@
 import * as R from 'ramda'
 import expect from 'expect';
 import axios from 'axios';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
+import { reduce, map, switchMap, filter, catchError, fromPromise } from 'rxjs/operators'
+import { fromFetch } from 'rxjs/fetch';
 
 // FP: object CRUD with no mutation 
 const obj = {id: '1', name: 'ben', phone: '1231231232'};
@@ -242,7 +244,15 @@ function printKosac(members, _selector, log) {
   })
 }
 printKosac(kosacs, isGangnam, console.log)
-
+// generalize printKosac
+const inWhere = (where) => (member) => member.address === where ? true: false;
+const inWhereF = (prop) => (where) => (member) => member[prop] === where ? true: false;
+const run = (...functions) => (initial) => {
+  return functions.reduce((prevResult, fn) => fn(prevResult), initial)
+}
+console.log('#########generalize printKosac ########')
+run(R.filter(inWhere('gangnam')), console.log)(kosacs)
+run(R.filter(inWhereF('address')('gangnam')), R.filter(inWhereF('name')('lim')), console.log)(kosacs)
 // currying
 function multiply(a) {
   return (b) => {
@@ -268,7 +278,29 @@ const multiplyPartial23 = multiply2(2, 3);
 console.log('partial function multiply 3* => ', multiplyPartial3(10)(11)); // working
 console.log('partial function multiply 2*3 => ', multiplyPartial23(10)); // not working
 
-// axios data
-const randomUsers = []
-const user$ = from(axios.get('https://randomuser.me/api/'));
-user$.subscribe(result => console.log(result.data.results));
+// async data 
+console.log('################promise chaining')
+
+
+const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe(
+  switchMap(res => {
+    // console.log(res.data)
+    return res.data
+  }),
+  filter(idSelector(5)),
+  switchMap((member) => axios.get(`https://jsonplaceholder.typicode.com/users/${member.id}`).then(data => data.data)),
+  catchError(err => {
+    console.log(err);
+    return of({ error: true, message: err.message})
+  })
+);
+function idSelector(id) {
+  return (member) => member.id === id ? true: false;
+}
+const subs = user$.subscribe({
+  next: result => console.log(result),
+  complete: () => console.log('done')
+});
+setTimeout(() => {
+  subs.unsubscribe()
+}, 10000);
