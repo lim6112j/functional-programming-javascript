@@ -4,6 +4,7 @@ import axios from 'axios';
 import { from, of } from 'rxjs';
 import { reduce, map, switchMap, filter, catchError, fromPromise } from 'rxjs/operators'
 import { fromFetch } from 'rxjs/fetch';
+import Kosac from './kosac'
 /* Funtional Reactive Programming paradigm - core concept
 declarative vs imperative (declarative example : run(I, need, data, from, database), run(I, need, delete, some data, inSomeAPI))
 
@@ -165,22 +166,7 @@ console.log(feedbacks)
 
 // functional example
 console.log("######## legacy => functional ")
-class Kosac {
-  constructor(id, name, address) {
-    this.id = id;
-    this.name = name;
-    this.address = address;
-  }
-  getName() {
-    return this.name;
-  }
-  getId() {
-    return this.id;
-  }
-  getAddress() {
-    return this.address;
-  }
-}
+
 const aKosac =new Kosac(1, 'lim', 'gangnam');
 aKosac.id = 2 // serious problem
 console.log(aKosac.id)

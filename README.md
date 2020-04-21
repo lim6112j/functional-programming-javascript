@@ -1,3 +1,3 @@
 # how to run
 npm install
-npm start
+npm start filename.js
