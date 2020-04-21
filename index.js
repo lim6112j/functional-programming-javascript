@@ -4,7 +4,31 @@ import axios from 'axios';
 import { from, of } from 'rxjs';
 import { reduce, map, switchMap, filter, catchError, fromPromise } from 'rxjs/operators'
 import { fromFetch } from 'rxjs/fetch';
+/* Funtional Reactive Programming paradigm - core concept
+declarative vs imperative (declarative example : run(I, need, data, from, database), run(I, need, delete, some data, inSomeAPI))
 
+currying ( f(a, b) = f(a)(b) )
+closure
+
+first class function
+Higher order function
+
+app is just an array of object
+functional program ideally use 8 pure function, 2 impure function.
+
+pure function
+impure function
+side effects (console.log, math.random, external variable, var(let), api, Database, ...)
+immutability
+mutability
+
+OOP works for minimizing behavior, FP works for minimizing Object.
+OOP has too many objects, FP has too many behaviors
+OOP and FP should go along. tradeoff between 2 paradigm is very hard and important
+
+Reactive Program handles all data as Stream
+Reactive Program should subscribe to observable, not function call to pull data.
+*/
 // FP: object CRUD with no mutation 
 const obj = {id: '1', name: 'ben', phone: '1231231232'};
 //add
@@ -246,7 +270,10 @@ function printKosac(members, _selector, log) {
 printKosac(kosacs, isGangnam, console.log)
 // generalize printKosac
 const inWhere = (where) => (member) => member.address === where ? true: false;
-const inWhereF = (prop) => (where) => (member) => member[prop] === where ? true: false;
+const inWhereF = (prop) => {
+  return (where) => {
+    return (member) => {
+      return member[prop] === where ? true: false;}}}
 const run = (...functions) => (initial) => {
   return functions.reduce((prevResult, fn) => fn(prevResult), initial)
 }
@@ -295,7 +322,7 @@ const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe
   })
 );
 function idSelector(id) {
-  return (member) => member.id === id ? true: false;
+  return member => member.id === id ? true: false;
 }
 const subs = user$.subscribe({
   next: result => console.log(result),
