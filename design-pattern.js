@@ -59,4 +59,5 @@ const getCountryMaybe = (member) => member
   .getOrElse('존재하지 않는 국가')
 
 console.log(`imperative => ${getCountry(members[0])}`)
-console.log(`functional => ${getCountryMaybe(memberMaybe)}`)
+console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(members[0]))}`)
+console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(null))}`)
