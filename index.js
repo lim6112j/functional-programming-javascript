@@ -1,9 +1,5 @@
 import * as R from 'ramda'
 import expect from 'expect';
-import axios from 'axios';
-import { from, of } from 'rxjs';
-import { reduce, map, switchMap, filter, catchError, fromPromise } from 'rxjs/operators'
-import { fromFetch } from 'rxjs/fetch';
 import Kosac from './kosac'
 /* Funtional Reactive Programming paradigm - core concept
 declarative vs imperative (declarative example : run(I, need, data, from, database), run(I, need, delete, some data, inSomeAPI))
@@ -290,30 +286,3 @@ const multiplyPartial3 = multiply(3);
 const multiplyPartial23 = multiply2(2, 3);
 console.log('partial function multiply 3* => ', multiplyPartial3(10)(11)); // working
 console.log('partial function multiply 2*3 => ', multiplyPartial23(10)); // not working
-
-// async data 
-console.log('################promise chaining')
-
-
-const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe(
-  switchMap(res => {
-    // console.log(res.data)
-    return res.data
-  }),
-  filter(idSelector(5)),
-  switchMap((member) => axios.get(`https://jsonplaceholder.typicode.com/users/${member.id}`).then(data => data.data)),
-  catchError(err => {
-    console.log(err);
-    return of({ error: true, message: err.message})
-  })
-);
-function idSelector(id) {
-  return member => member.id === id ? true: false;
-}
-const subs = user$.subscribe({
-  next: result => console.log(result),
-  complete: () => console.log('done')
-});
-setTimeout(() => {
-  subs.unsubscribe()
-}, 10000);
