@@ -1,9 +1,10 @@
 // functor, monad
 import _ from 'lodash'
 import * as R from 'ramda'
-import Maybe from './monad/Maybe'
+import { Maybe, Either, IO } from './monad'
 import util from 'util'
 import { Tuple } from './tuple'
+import  {Wrapper}  from './functor'
 const log = (val) => console.log(val)
 // compare functor - map , monad - flatMap design pattern
 const arr = [1,2,3,4,5]
@@ -69,5 +70,23 @@ console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(null))}`)
 
 // tuple
 const Status = Tuple(Boolean, String)
+console.log(util.inspect(Status, true, 0))
 const status = new Status(true, 'hello tuple')
 console.log(status)
+
+// map, fmap
+// map: (A -> B) -> A -> B
+// fmap: (A -> B) -> wrapper(A) -> wrapper(B)
+
+const wrap = (val) => new Wrapper(val)
+const wrappedValue = wrap('hello')
+wrappedValue.map(x => new Wrapper(x + 1)).map(log)
+
+const getCountryEither = (memberEither) => memberEither
+  .map(R.prop('address'))
+  .map(R.prop('country'))
+  .map(R.prop('countryCode'))
+  .getOrElse('국가 코드가 존재하지 않습니다.')
+
+  console.log(`functional => ${getCountryEither(Either.fromNullable(members[0]))}`)
+  console.log(`functional => ${getCountryEither(Either.fromNullable(members[1]))}`)

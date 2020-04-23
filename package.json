@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "IO": "webpack-dev-server --open",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread"
   },
@@ -12,14 +14,18 @@
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "expect": "^25.3.0"
+    "expect": "^25.3.0",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "lodash": "^4.17.15",
     "ramda": "^0.27.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.10.3"
   }
 }
