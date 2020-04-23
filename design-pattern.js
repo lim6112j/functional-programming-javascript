@@ -3,6 +3,7 @@ import _ from 'lodash'
 import * as R from 'ramda'
 import Maybe from './monad/Maybe'
 import util from 'util'
+import { Tuple } from './tuple'
 const log = (val) => console.log(val)
 // compare functor - map , monad - flatMap design pattern
 const arr = [1,2,3,4,5]
@@ -61,3 +62,8 @@ const getCountryMaybe = (member) => member
 console.log(`imperative => ${getCountry(members[0])}`)
 console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(members[0]))}`)
 console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(null))}`)
+
+// tuple
+const Status = Tuple(Boolean, String)
+const status = new Status(true, 'hello tuple')
+console.log(status)
