@@ -52,6 +52,9 @@ function getCountry(member) {
   }
   return '존재하지 않는 국가'
 }
+function getCountry2(member) {
+  return member && member.address && member.address.country && member.address.country.countryCode || '국가가 존재하지 않음.'
+}
 // functional with maybe
 const getCountryMaybe = (member) => member
   .map(R.prop('address'))
@@ -60,6 +63,7 @@ const getCountryMaybe = (member) => member
   .getOrElse('존재하지 않는 국가')
 
 console.log(`imperative => ${getCountry(members[0])}`)
+console.log(`imperative => ${getCountry2(members[1])}`)
 console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(members[0]))}`)
 console.log(`functional => ${getCountryMaybe(Maybe.fromNullable(null))}`)
 
