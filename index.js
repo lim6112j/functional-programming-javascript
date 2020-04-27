@@ -1,6 +1,8 @@
-import * as R from 'ramda'
+import * as R from 'ramda';
 import expect from 'expect';
-import Kosac from './kosac'
+import Kosac from './kosac';
+import _ from 'lodash';
+import { myPartial } from './partial'
 /* Funtional Reactive Programming paradigm - core concept
 declarative vs imperative (declarative example : run(I, need, data, from, database), run(I, need, delete, some data, inSomeAPI))
 
@@ -261,8 +263,8 @@ const run = (...functions) => (initial) => {
 }
 console.log('#########generalize printKosac ########')
 run(R.filter(inWhere('gangnam')), console.log)(kosacs)
-run(R.filter(inWhereF('address')('gangnam')), R.filter(inWhereF('name')('lim')), console.log)(kosacs)
-// currying
+run(R.filter(inWhereF('address')('gangnam')), R.filter(inWhereF('name')('lim')), console.log)(kosacs);
+// currying and partial
 function multiply(a) {
   return (b) => {
     return (c) => {
@@ -278,6 +280,12 @@ function multiply2(a, b, c) { // b,c not used
     }
   }
 }
+function multiply3(a, b, c) {
+  return a + b * c;
+}
+
+const partialMulti = myPartial(multiply3, '_', 3);
+console.log(partialMulti(2, 3));
 console.log('currying method ', multiply(1)(2)(3)) 
 console.log('currying method ', multiply2(1)(2)(3)) // works why?
 console.log('currying method', multiply2(2,3,4)) // return (b) => {} , not working why?
