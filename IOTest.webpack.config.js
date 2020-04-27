@@ -1,16 +1,11 @@
 const path = require('path')
 module.exports = {
-  entry: './rxjs/rxjs.js',
+  entry: './IOTest/index.js',
   output: {
     filename: 'main.js',
   },
   devServer: {
-    contentBase: './rxjs',
-    headers: {
-      "Access-Control-Allow-Origin": "0.0.0.0",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-    }
+    contentBase: './IOTest'
   },
   module: {
     rules: [{

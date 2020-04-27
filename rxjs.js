@@ -11,7 +11,7 @@ const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe
     // console.log(res.data)
     return res.data
   }),
-  filter(idSelector(5)),
+  filter(idSelector('Chelsey Dietrich')),
   switchMap((member) => axios.get(`https://jsonplaceholder.typicode.com/users/${member.id}`).then(data => data.data)),
   catchError(err => {
     console.log(err);
@@ -19,7 +19,7 @@ const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe
   })
 );
 function idSelector(id) {
-  return member => member.id === id ? true: false;
+  return member => member.name === id ? true: false;
 }
 const subs = user$.subscribe({
   next: result => console.log(result),
