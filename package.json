@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "IO": "webpack-dev-server --open",
-    "rxjs": "webpack-dev-server --open",
+    "IO": "webpack-dev-server --config IOTest.webpack.config.js --open",
+    "rxjs": "webpack-dev-server --config rxjs.webpack.config.js --open",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread"
