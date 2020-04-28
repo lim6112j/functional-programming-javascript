@@ -1,5 +1,5 @@
 import {fromEvent} from 'rxjs'
-import { map, debounceTime, switchMap, distinctUntilChanged, tap, mergeAll, filter} from 'rxjs/operators'
+import { map, debounceTime, switchMap, distinctUntilChanged, tap, share, mergeAll, filter} from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 // const api = `https://search.shine-through-trees.com/elasticsearch/_search`;
 const $layer = document.getElementById('searchResult');
@@ -11,15 +11,13 @@ const drawHTML = (items) => {
     </li>`
   }).join("");
 }
-const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", "Basic dXNlcjpQdUs5TWtoNk1WNmU=");
-myHeaders.append("Content-Type", "text/plain");
+
 const keyup$ = fromEvent(document.getElementById('rxjs'), 'keyup')
   .pipe(
     debounceTime(300),
     map(ev => ev.target.value),
     distinctUntilChanged(),
+    share()
   );
 const user$ = keyup$
     .pipe(
