@@ -6,6 +6,13 @@ const log = (function() {
     };
   }
 })();
+const logl = (function() {
+  return function(msg) {
+    return function(v) {
+      console.log(msg, " => ", util.inspect(v, true, 10, true));
+    };
+  }
+})();
 const proLog = (function() {
   return function(msg) { 
     return function(v) {
@@ -14,4 +21,4 @@ const proLog = (function() {
   }
 }
 )();
-export {log, proLog};
+export {log, proLog, logl};

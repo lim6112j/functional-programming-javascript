@@ -1,9 +1,9 @@
 import { from, of, asyncScheduler,animationFrame, animationFrameScheduler, interval } from 'rxjs';
 import axios from 'axios'
-import { takeWhile, reduce, flatMap, tap, map, switchMap, filter, catchError, fromPromise, subscribeOn, observeOn, take } from 'rxjs/operators'
+import { toArray, groupBy, scan, takeWhile, reduce, flatMap, tap, map, switchMap, filter, catchError, fromPromise, subscribeOn, observeOn, take } from 'rxjs/operators'
 import { fromFetch } from 'rxjs/fetch';
 
-import {log, proLog} from './utils';
+import {log, proLog, logl} from './utils';
 // async data 
 // console.log('################promise chaining')
 
@@ -86,3 +86,10 @@ import {log, proLog} from './utils';
 //   takeWhile(x => x <= 1)
 // )
 // animation$.subscribe(log('animationFrameScheduler'));
+interval(1000).pipe(
+  take(30),
+  groupBy(n => n % 3),
+  flatMap(group => group.pipe(toArray())),
+  tap(log('array')),
+  scan((acc, v) => {return acc + v}, [])
+).subscribe(logl('subscription'))
