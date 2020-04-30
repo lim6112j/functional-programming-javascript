@@ -1,4 +1,4 @@
-import {fromEvent, merge} from 'rxjs'
+import {of, concat, fromEvent, merge, animationFrameScheduler, interval, defer} from 'rxjs'
 import {
   map,
   scan,
@@ -12,6 +12,7 @@ import {
   takeUntil,
   startWith,
   withLatestFrom,
+  takeWhile,
   mergeOn,
   combineLatest,
   mergeAll
@@ -55,6 +56,7 @@ reset$.subscribe();
 const $view = document.getElementById('carousel');
 const $container = document.getElementById('container');
 const THRESHOLD = 30;
+const DEFAULT_DURATION = 300;
 const PANEL_COUNT = $container.querySelectorAll(".panel").length;
 const TOUCHENABLED = "ontouchstart" in window;
 const EVENTS = {
@@ -118,13 +120,19 @@ const carousel$ = merge(drag$, drop$).pipe(
       updateAcc.size = size;
     }
     return { ...acc, ...updateAcc}
-  }, {from: 0, to: 0, index: 0, size: 0})
+  }, {from: 0, to: 0, index: 0, size: 0}),
+  switchMap(({from, to}) => from === to ?
+    of(to) : animation(from, to, DEFAULT_DURATION)
+  )
 );
 
 carousel$.subscribe(v => {
-  console.log(v),
-  translateX(v.to);
+  console.log('carousel data', v),
+  translateX(v);
 });
+
+// animation(100, 500, 300).subscribe(log('animation'))
+// functions
 
 function toPos(observable$) {
   return observable$.pipe(
@@ -133,4 +141,17 @@ function toPos(observable$) {
 }
 function translateX(posX) {
   $container.style.transform = `translate3d(${posX}px, 0, 0)`;
+}
+function animation(from, to, duration) {
+  return defer( () => {
+    const scheduler = animationFrameScheduler;
+    const start = scheduler.now();
+    const interval$ = interval(0, scheduler).pipe(
+      map(() => (scheduler.now() - start)/duration),
+      takeWhile(x => x <= 1)
+    );
+    return concat(interval$, of(1)).pipe(
+      map(rate => from + (to - from)*rate)
+    );
+  } );
 }
