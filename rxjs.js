@@ -2,9 +2,8 @@ import { from, of } from 'rxjs';
 import axios from 'axios'
 import { reduce, flatMap, tap, map, switchMap, filter, catchError, fromPromise } from 'rxjs/operators'
 import { fromFetch } from 'rxjs/fetch';
-import util from 'util';
-const log =(msg) => (v) => console.log(msg, " => ",util.inspect(v, true, 10, true));
-const proLog = (msg) => (v) => v.then(log(msg));
+
+import {log, proLog} from './utils';
 // async data 
 // console.log('################promise chaining')
 
