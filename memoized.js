@@ -1,4 +1,4 @@
-import _ from 'lodash'
+// import _ from 'lodash'
 const log = (msg) => (v) => console.log(msg ,' => ', v)
 // const syncWait = ms => {
 //   const end = Date.now() + ms
@@ -108,14 +108,26 @@ const log = (msg) => (v) => console.log(msg ,' => ', v)
 // const csrtIns = new Csrt();
 // log('this(of csrt function)')(csrtIns.memberMethod())
 
-const IIFE = (function() {
-  const obj = {
-    name: 'lim',
-    method: () => {
-      console.log(this)
-      return this
-    }
+// const IIFE = (function() {
+//   const obj = {
+//     name: 'lim',
+//     method: () => {
+//       console.log(this)
+//       return this
+//     }
+//   }
+//   return obj;
+// })();
+// log('iife')(IIFE.method())
+
+// wrong in strict mode
+const IIFE2 = (function() {
+  this.method = function() {
+    // console.log(this);
+    console.log(arguments)
+    return this;
   }
-  return obj;
-})();
-log('iife')(IIFE.method())
+  return this;
+})()
+
+log('iife2')(IIFE2.method(1,2,3,4))
