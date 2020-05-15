@@ -1,6 +1,6 @@
 'use strict'
-const log = (msg, v) => console.log(msg, " => ", v);
-function assert(value, desc) {
+const log = (msg: string, v:string): void => console.log(msg, " => ", v);
+function assert(value: boolean, desc: string): void {
   const li = document.createElement("li");
   li.className = value ? "pass" : "fail";
   li.appendChild(document.createTextNode(desc));
