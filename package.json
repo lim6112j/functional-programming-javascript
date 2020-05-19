@@ -8,7 +8,7 @@
     "rxjs": "webpack-dev-server --config rxjs.webpack.config.js --open",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread"
+    "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread --plugins babel-plugin-transform-class-properties"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "expect": "^25.3.0",
