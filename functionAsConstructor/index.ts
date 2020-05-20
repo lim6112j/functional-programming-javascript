@@ -22,3 +22,12 @@ const button = new Button();
 const elem = document.getElementById("test");
 elem.addEventListener('click', button.click);
 
+// prototype
+function Kosac() {}
+Kosac.prototype.hasMember = function() {
+  return true;
+}
+assert(Kosac() === undefined, 'invoking as function of Kosac is undefined')
+assert(new Kosac() !== undefined, 'invoking as constructor of Kosac is instance of Kosac')
+console.log(new Kosac())
+console.log(Kosac)

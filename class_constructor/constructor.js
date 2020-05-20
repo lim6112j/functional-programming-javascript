@@ -66,9 +66,14 @@ import { CombineLatestOperator } from 'rxjs/internal/observable/combineLatest';
 
 class Engine {
   static drive = () => {}
-  stop() {
-    console.log('engine stop');
+  stop() { // Engine.prototype.stop property
+    console.log('engine stop')
   }
+  get stop() { // Engine.prototype.stop property
+    return console.log('engine stop')
+  }
+  stop = console.log('engine stop'); // engine property
+  
   get start ()  {
     console.log('engine starts')
   }
@@ -76,4 +81,6 @@ class Engine {
 }
 const engine = new Engine();
 engine.start
+engine.stop
+console.log(engine)
 logl('engine start')(engine)
