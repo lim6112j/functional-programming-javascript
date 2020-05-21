@@ -1,0 +1,19 @@
+{
+  "users": [
+    {"id": 3,
+      "country": "kr",
+      "grades": 300,
+      "name": "lim"
+    },
+    {"id": 2,
+      "country": "kr",
+      "grades": 110,
+      "name": "jim"
+    }, 
+    {"id": 1,
+      "country": "US",
+      "grades": 200,
+      "name": "kim"
+    }
+  ]
+}
