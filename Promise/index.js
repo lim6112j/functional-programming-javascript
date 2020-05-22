@@ -67,7 +67,7 @@ function run(...functions) {
 const then = R.curry((f, promise) => promise.then(f));
 const catchF = R.curry((f, promise) => promise.catch(f))
 const errLog = _.partial(console.log, '###### Promise Failed ######');
-const axiosInner = (user) => Axios.get(`${url}${user.id}`);
+const axiosInner = (user) => Axios.get(`${url}${user}`);
 const chain = R.curry((f, x) => f(x));
 
 const showUser = run(
@@ -79,7 +79,8 @@ const showUser = run(
   then(R.map(axiosInner)),
   then(R.tap(v => console.log(v))),
   then(R.tap(R.map(then(data => console.log(data.data))))),
-  catchF(errLog)
+  catchF(errLog),
+  then(R.map(catchF(errLog)))
 );
 showUser(url);
 // const showUser2 = R.compose(
