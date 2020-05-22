@@ -3,3 +3,4 @@ node_modules
 /**/.cache
 decorators/ts.js
 functionAsConstructor/index.js
+function-generator/gen.js
