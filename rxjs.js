@@ -5,9 +5,11 @@ import { fromFetch } from 'rxjs/fetch';
 
 import {log, proLog, logl} from './utils';
 const subscriber = function(end) {
+  let i = 0;
   const obj =   {
     next: function(v) {
-      v === end ? this.unsubscribe() : logl('subs value')(v);;
+      logl('subs value')(v)
+      i++ === end ? this.unsubscribe() : null;
     },
     error: log('error'),
     complete: function(){logl('completed')(this)}
@@ -105,7 +107,8 @@ const subscriber = function(end) {
 // )
 // const subs =obs$.subscribe(subscriber)
 const obs$ = interval(100).pipe(
-  // take(5),
+  filter(v => v % 3 === 0),
+  tap(log('tap value'))
   // tap(log('interval value'))
 );
 const subs = obs$.subscribe(subscriber(5));
