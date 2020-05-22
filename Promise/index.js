@@ -67,16 +67,18 @@ function run(...functions) {
 const then = R.curry((f, promise) => promise.then(f));
 const catchF = R.curry((f, promise) => promise.catch(f))
 const errLog = _.partial(console.log, '###### Promise Failed ######');
-const axiosInner = (user) => Axios.get(`${url}${user.id}`).then(R.map(user => user.name ? showUsers(user, user.grades) : null));
+const axiosInner = (user) => Axios.get(`${url}${user.id}`);
 const chain = R.curry((f, x) => f(x));
 
 const showUser = run(
   chain(Axios.get),
   then(data => data.data),
   then(R.filter(s=> s.country === 'kr')),
-  then(R.tap(v => console.log(v))),
+  // then(R.tap(v => console.log(v))),
   then(R.sortWith([R.ascend(R.prop('id'))])),
   then(R.map(axiosInner)),
+  then(R.tap(v => console.log(v))),
+  then(R.tap(R.map(then(data => console.log(data.data))))),
   catchF(errLog)
 );
 showUser(url);
