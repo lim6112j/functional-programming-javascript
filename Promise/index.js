@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { forkJoin } from 'rxjs';
+import _ from 'lodash';
 import * as R from 'ramda';
 // var users = null;
 const url = 'http://localhost:3000/users/';
@@ -50,16 +51,41 @@ function run(...functions) {
     return functions.reduce((prevReturn, fn) => fn(prevReturn), initial);
   }
 }
-const fns = run (
-  data => data.data,
-  R.filter(s=> s.country === 'kr'),
-  R.sortBy(R.prop('id')),
-  R.map(user => {
-  Axios.get(`${url}${user.id}`).then(R.map(user => user.name ? showUsers(user, user.grades) : null))
-  }
-));
+// const fns = run (
+//   data => data.data,
+//   R.filter(s=> s.country === 'kr'),
+//   R.sortBy(R.prop('id')),
+//   R.map(user => {
+//   Axios.get(`${url}${user.id}`).then(R.map(user => user.name ? showUsers(user, user.grades) : null))
+//   }
+// ));
 
 
-Axios.get(url)
-.then(fns)
-.catch(err => console.log(err))
+// Axios.get(url)
+// .then(fns)
+// .catch(err => console.log(err))
+const then = R.curry((f, promise) => promise.then(f));
+const catchF = R.curry((f, promise) => promise.catch(f))
+const errLog = _.partial(console.log, '###### Promise Failed ######');
+const axiosInner = (user) => Axios.get(`${url}${user.id}`).then(R.map(user => user.name ? showUsers(user, user.grades) : null));
+const chain = R.curry((f, x) => f(x));
+
+const showUser = run(
+  chain(Axios.get),
+  then(data => data.data),
+  then(R.filter(s=> s.country === 'kr')),
+  then(R.tap(v => console.log(v))),
+  then(R.sortWith([R.ascend(R.prop('id'))])),
+  then(R.map(axiosInner)),
+  catchF(errLog)
+);
+showUser(url);
+// const showUser2 = R.compose(
+//   catchF(errLog),
+//   then(R.map(axiosInner)),
+//   then(R.sortBy(R.prop('id'))),
+//   then(R.filter(s => s.country === 'kr')),
+//   then(data => data.data),
+//   chain(Axios.get)
+// )
+// showUser2(url)
