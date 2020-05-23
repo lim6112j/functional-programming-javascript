@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { forkJoin, from } from 'rxjs';
-import { tap, filter, map, flatMap, switchMap } from 'rxjs/operators';
+import { tap, filter, map, flatMap, switchMap, reduce } from 'rxjs/operators';
 import _ from 'lodash';
 import * as R from 'ramda';
 import {log, proLog, logl} from '../utils';
@@ -105,7 +105,7 @@ const subscriber = function(end) {
   let i = 0;
   const obj =   {
     next: function(v) {
-      log('subs value')(v.data)
+      log('subs value')(v)
       i++ === end ? this.unsubscribe() : null;
     },
     error: log('error'),
@@ -117,4 +117,6 @@ from(Axios.get(url)).pipe(
   flatMap(v => v.data),
   filter(v => v.country === 'kr'),
   flatMap(v => from(Axios.get(`${url}${v.id}`))),
-).subscribe(subscriber(2));
+  reduce((acc, v) => {acc.push(v.data); return acc;},[]),
+  switchMap(v => v.sort((a,b) => a.id < b.id))
+).subscribe(subscriber(10));
