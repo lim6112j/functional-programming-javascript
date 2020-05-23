@@ -2,6 +2,7 @@ import Axios from 'axios';
 import { forkJoin } from 'rxjs';
 import _ from 'lodash';
 import * as R from 'ramda';
+import {log, proLog, logl} from '../utils';
 // var users = null;
 const url = 'http://localhost:3000/users/';
 // function showUsers(users) {
@@ -65,9 +66,9 @@ function run(...functions) {
 // .then(fns)
 // .catch(err => console.log(err))
 const then = R.curry((f, promise) => promise.then(f));
-const catchF = R.curry((f, promise) => promise.catch(f))
+const catchF = R.curry((f, promise) => {promise.catch(f); return promise})
 const errLog = _.partial(console.log, '###### Promise Failed ######');
-const axiosInner = (user) => Axios.get(`${url}${user.id}`);
+const axiosInner = (user) => Axios.get(`${url}${user}`);
 const chain = R.curry((f, x) => f(x));
 
 const showUser = run(
@@ -77,10 +78,10 @@ const showUser = run(
   // then(R.tap(v => console.log(v))),
   then(R.sortWith([R.ascend(R.prop('id'))])),
   then(R.map(axiosInner)),
-  // then(R.tap(v => console.log(v))),
+  // then(R.tap(v => console.log(v.length))),
   then(R.tap(R.map(then(data => console.log(data.data))))),
-  catchF(_ => console.log("####### Error1 #######")),
-  then(R.map(catchF(err => console.log("####### Error2 #######"))))
+  catchF(log('######### Error 1 ###########')),
+  then(R.map(catchF(log('####### Error 2 #########'))))
 );
 showUser(url);
 // const showUser2 = R.compose(
