@@ -26,6 +26,9 @@ var Try = /** @class */ (function () {
             return new Failure(error);
         }
     };
+    Try.prototype.flatten = function () {
+        return this._val;
+    };
     Try.prototype.map = function (fn) {
         var _this = this;
         return Try.of(function () { return fn(_this._val); });

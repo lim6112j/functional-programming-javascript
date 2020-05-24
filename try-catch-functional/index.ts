@@ -7,7 +7,7 @@ import { concatMap, timestamp, tap, flatMap, map } from 'rxjs/operators';
 import PouchDB from 'pouchdb';
 const userDB = new PouchDB('users');
 class User {
-  constructor(public name: string, public age: number){}
+  constructor(public name: string, public age: number, public date?: number){}
 }
 
 const users = [
@@ -47,11 +47,14 @@ const findUser$ = (id: string) => from(findById(id));
 // ).subscribe(subscriber()(10));
 
 import {Try, Success, Failure} from './try_monad';
-const processTry = (p: any) => {
+const processTry = (replacement: any = null) => (p: any) => {
   return p.then((v: any) => new Success(v))
-          .catch((err:any) => new Failure(err));
+          .catch((err:any) => {
+            console.log("### Error, if exists, replacement will be used ######" ,err);
+            return new Failure(replacement ? replacement : err)});
 };
-let record = Try.of(() => findById("092375c2-be1d-415b-a55a-f93d82705b6e"))
-.map(processTry)
-.getOrElse(new User('jane', 34));
-record.then((v:any) => v.map((res: any) => console.log(res)))
+let record = Try.of(() => findById("92375c2-be1d-415b-a55a-f93d82705b6e"))
+.map(processTry(new User("jane doe", 0, Date.now())))
+.flatten();
+
+record.then((v:any) => console.log(v))

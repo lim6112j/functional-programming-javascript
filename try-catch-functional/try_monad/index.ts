@@ -11,6 +11,9 @@ export class Try {
       return new Failure(error);
     }
   }
+  flatten() {
+    return this._val;
+  }
   map(fn: any) {
     return Try.of(() => fn(this._val));
   }
