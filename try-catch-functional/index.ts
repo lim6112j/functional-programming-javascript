@@ -47,8 +47,11 @@ const findUser$ = (id: string) => from(findById(id));
 // ).subscribe(subscriber()(10));
 
 import {Try, Success, Failure} from './try_monad';
-
+const processTry = (p: any) => {
+  return p.then((v: any) => new Success(v))
+          .catch((err:any) => new Failure(err));
+};
 let record = Try.of(() => findById("092375c2-be1d-415b-a55a-f93d82705b6e"))
-.map((promise: any) => promise.then((v:any) => new Success(v)).catch((err:any) => new Failure(err)))
+.map(processTry)
 .getOrElse(new User('jane', 34));
 record.then((v:any) => v.map((res: any) => console.log(res)))
