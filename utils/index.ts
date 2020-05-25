@@ -26,11 +26,11 @@ const subscriber = (f:any) => function(end: number): any {
   let i = 0;
   const obj: any =   {
     next: function(v: any) {
-      log('subs value')(v);
+      log('Subscription value')(v);
       if(f) f();
       i++ === end ? this.unsubscribe() : null;
     },
-    error: log('error'),
+    error: log('Subscription Error'),
     complete: function(){if(f) f();log('completed')(this)}
   }
   return obj;

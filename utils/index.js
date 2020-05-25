@@ -30,12 +30,12 @@ var subscriber = function (f) { return function (end) {
     var i = 0;
     var obj = {
         next: function (v) {
-            log('subs value')(v);
+            log('Subscription value')(v);
             if (f)
                 f();
             i++ === end ? this.unsubscribe() : null;
         },
-        error: log('error'),
+        error: log('Subscription Error'),
         complete: function () { if (f)
             f(); log('completed')(this); }
     };
