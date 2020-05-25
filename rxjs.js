@@ -4,6 +4,18 @@ import { toArray, groupBy, scan, takeWhile, reduce, flatMap, tap, map, switchMap
 import { fromFetch } from 'rxjs/fetch';
 
 import {log, proLog, logl} from './utils';
+const subscriber = function(end) {
+  let i = 0;
+  const obj =   {
+    next: function(v) {
+      logl('subs value')(v)
+      i++ === end ? this.unsubscribe() : null;
+    },
+    error: log('error'),
+    complete: function(){logl('completed')(this)}
+  }
+  return obj;
+} 
 // async data 
 // console.log('################promise chaining')
 
@@ -86,10 +98,17 @@ import {log, proLog, logl} from './utils';
 //   takeWhile(x => x <= 1)
 // )
 // animation$.subscribe(log('animationFrameScheduler'));
-interval(1000).pipe(
-  take(30),
-  groupBy(n => n % 3),
-  flatMap(group => group.pipe(toArray())),
-  tap(log('array')),
-  scan((acc, v) => {return acc + v}, [])
-).subscribe(logl('subscription'))
+// const obs$ = interval(1000).pipe(
+//   take(5),
+//   groupBy(n => n % 3),
+//   flatMap(group => group.pipe(toArray())),
+//   tap(log('array')),
+//   scan((acc, v) => {return acc + v}, [])
+// )
+// const subs =obs$.subscribe(subscriber)
+const obs$ = interval(100).pipe(
+  filter(v => v % 3 === 0),
+  tap(log('tap value'))
+  // tap(log('interval value'))
+);
+const subs = obs$.subscribe(subscriber(5));
