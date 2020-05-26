@@ -1,6 +1,7 @@
 /**
  * How To Run
  * tsc --downlevelIteration -w ./function-generator/gen.ts
+ * npm start ./function-generator/gen
  */
 function* range(start=0, finish=Number.POSITIVE_INFINITY) {
   for(let i = start; i < finish; i++){
@@ -58,3 +59,26 @@ for(let x of rawRange(1, 3)) {
 // }
 
 // console.log(take(3, range(1, Infinity)))
+
+// secrets of ninja chapter 6
+import { assert, header } from '../utils/util';
+
+header('Chapter 6 - exercise');
+
+function *EvenGenerator() {
+  let num = 2;
+  while(true) {
+    yield num;
+    num = num + 2;
+  }
+}
+let generator = EvenGenerator();
+let a1 = generator.next().value;
+let a2 = generator.next().value;
+let a3 = EvenGenerator().next().value;
+let a4 = generator.next().value;
+
+assert(a1 === 2, "a1 === 2");
+assert(a2 === 4, "a2 === 4");
+assert(a3 === 2, "a3 === 2");
+assert(a4 === 6, "a4 === 6");
