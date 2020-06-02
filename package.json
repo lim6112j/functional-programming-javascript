@@ -9,7 +9,7 @@
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread --plugins babel-plugin-transform-class-properties --plugins babel-plugin-transform-decorators-legacy",
-    "deco": "tsc --target ES5 --experimentalDecorators -w"
+    "deco": "tsc --target ES5 --experimentalDecorators --esModuleInterop -w"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.154",
     "@types/pouchdb": "^6.4.0",
     "axios": "^0.19.2",
     "crocks": "^0.12.4",
