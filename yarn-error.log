@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/byeongcheollim/.nvm/versions/node/v10.17.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add folktalejs
+  /Users/byeongcheollim/.nvm/versions/node/v10.17.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @type/ramda
 
 PATH: 
   /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin:/Users/byeongcheollim/.pyenv/shims:/Users/byeongcheollim/.nvm/versions/node/v10.17.0/bin:/Users/byeongcheollim/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin:/Users/byeongcheollim/.pyenv/shims:/Users/byeongcheollim/.nvm/versions/node/v10.17.0/bin:/Users/byeongcheollim/.cargo/bin:/Users/byeongcheollim/Library/Android/sdk/emulator:/Users/byeongcheollim/Library/Android/sdk/tools:/Users/byeongcheollim/Library/Android/sdk/tools/bin:/Users/byeongcheollim/Library/Android/sdk/platform-tools:/Users/byeongcheollim/Library/Android/sdk/emulator:/Users/byeongcheollim/Library/Android/sdk/tools:/Users/byeongcheollim/Library/Android/sdk/tools/bin:/Users/byeongcheollim/Library/Android/sdk/platform-tools
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/folktalejs: Not found
+  Error: https://registry.yarnpkg.com/@type%2framda: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
       at Request.emit (events.js:198:13)
@@ -61,6 +61,7 @@ npm manifest:
       "axios": "^0.19.2",
       "crocks": "^0.12.4",
       "fetch": "^1.1.0",
+      "folktale": "^2.3.2",
       "lodash": "^4.17.15",
       "log4js": "^1.0.0",
       "pouchdb": "^7.2.1",
@@ -2720,6 +2721,11 @@ Lockfile:
     dependencies:
       inherits "^2.0.3"
       readable-stream "^2.3.6"
+  
+  folktale@^2.3.2:
+    version "2.3.2"
+    resolved "https://registry.yarnpkg.com/folktale/-/folktale-2.3.2.tgz#38231b039e5ef36989920cbf805bf6b227bf4fd4"
+    integrity sha512-+8GbtQBwEqutP0v3uajDDoN64K2ehmHd0cjlghhxh0WpcfPzAIjPA03e1VvHlxL02FVGR0A6lwXsNQKn3H1RNQ==
   
   follow-redirects@1.5.10:
     version "1.5.10"
