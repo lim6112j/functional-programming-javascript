@@ -2,6 +2,10 @@
 import {Maybe} from 'ramda-fantasy'
 import * as R from 'ramda'
 const curry = R.curry;
+/**
+ * dealing Null checks with monads
+ */
+
 // let user = {
 //   name: 'lim',
 //   discount: 'aaa'
