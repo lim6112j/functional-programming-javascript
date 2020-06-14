@@ -1,4 +1,4 @@
-import {of, concat, fromEvent, merge, animationFrameScheduler, interval, defer} from 'rxjs'
+import {Observable, of, concat, fromEvent, merge, animationFrameScheduler, interval, defer} from 'rxjs'
 import {
   map,
   scan,
@@ -155,3 +155,31 @@ function animation(from, to, duration) {
     );
   } );
 }
+
+// rxjs observable, observer 
+// https://www.youtube.com/watch?v=Tux1nhBPl_w&t=910s
+const button = document.querySelector('button');
+const observer = {
+  next: function(value) {
+    console.log(value);
+  },
+  error: function(error) {
+    console.log(error);
+  },
+  complete: function() {
+    console.log('completed');
+  }
+};
+// fromEvent(button, 'click').subscribe(observer);
+
+Observable.create(function(obs) {
+  // obs.next('A value');
+  // // obs.error('Error');
+  // setTimeout(function() {
+  //   obs.complete();
+  // }, 2000);
+  // obs.next('A second value');
+  button.onclick = function(event) {
+    obs.next(event)
+  }
+}).subscribe(observer)
