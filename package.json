@@ -9,7 +9,8 @@
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx babel-node --presets env --plugins babel-plugin-transform-object-rest-spread --plugins babel-plugin-transform-class-properties --plugins babel-plugin-transform-decorators-legacy",
-    "deco": "tsc --target ES5 --experimentalDecorators --esModuleInterop -w"
+    "deco": "tsc --target ES5 --experimentalDecorators --esModuleInterop -w",
+    "ts": "tsc --target ES5 -w"
   },
   "keywords": [],
   "author": "",
