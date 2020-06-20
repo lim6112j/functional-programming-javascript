@@ -14,11 +14,10 @@ var ascendOrd = function (list: number[]): number[] {
 var hIndex = function(citations: number[]):number {
     const len = citations.length
     let asd = ascendOrd(citations);
-    const hh = (h: number): number => {
-      if(h === len) return 0
-      return citations[h] >= citations.slice(h).length ? citations.slice(h).length : hh(h+1)
+    const hh = (i: number): number => {
+      if(i === len) return 0
+      return citations[i] >= len  - i ? len  - i : hh(i+1)
     }
-    
     return hh(0)
 };
 
@@ -30,5 +29,6 @@ console.log(hIndex([0, 1])) // should 1
 console.log(hIndex([0, 2])) // should 1
 console.log(hIndex([11, 15])) // should 2
 console.log(hIndex([0, 1, 3 ,5,6])) // should 3
-console.log(hIndex([3,0,6,1,5]))
-console.log(hIndex([1, 4, 7, 9]))
+console.log(hIndex([3,0,6,1,5])) // should 3
+console.log(hIndex([7,7,7,7,7,7,7])) // should 7
+console.log(hIndex([1, 4, 7, 9])) // should 3
