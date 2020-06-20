@@ -53,6 +53,7 @@ var hIndex = function (citations) {
     // return recursive()
     return binary();
 };
+console.time('hindex');
 console.log(hIndex([0])); // should 0
 console.log(hIndex([1])); // should 1
 console.log(hIndex([100])); // should 1
@@ -64,3 +65,4 @@ console.log(hIndex([0, 1, 3, 5, 6])); // should 3
 console.log(hIndex([3, 0, 6, 1, 5])); // should 3
 console.log(hIndex([7, 7, 7, 7, 7, 7, 7])); // should 7
 console.log(hIndex([1, 4, 7, 9])); // should 3
+console.timeEnd('hindex');
