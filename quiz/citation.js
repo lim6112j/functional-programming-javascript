@@ -30,3 +30,4 @@ console.log(hIndex([0, 2])); // should 1
 console.log(hIndex([11, 15])); // should 2
 console.log(hIndex([0, 1, 3, 5, 6])); // should 3
 console.log(hIndex([3, 0, 6, 1, 5]));
+console.log(hIndex([1, 4, 7, 9]));
