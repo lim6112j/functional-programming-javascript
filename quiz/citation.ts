@@ -25,13 +25,26 @@ var hIndex = function(citations: number[]):number {
      * @param acc accumulator
      * [0, 1]
      * mid = 0 + 1 / 2 = 0
+     * 
+     * python non-recursive code
+     *     n=len(c)
+    l,r=0,n-1
+    
+    while l<=r:
+        mid=(l+r)//2
+        
+        if c[mid]<n-mid:
+            l=mid+1
+        else:
+            r=mid-1
+    return n-l
      */
     const binary = (s: number = 0, e: number = len -1 ): number => {
       const mid = Math.floor((s+e)/2)
       return s <= e ? citations[mid] < len - mid ? binary(mid + 1, e)
-      : citations[mid] >= len - mid ? binary(s, mid - 1)
-      : Math.min(citations[mid], len-mid)
-      : len - s
+              : citations[mid] >= len - mid ? binary(s, mid - 1)
+              : Math.min(citations[mid], len-mid)
+            : len - s
     }
     // return recursive()
     return binary()

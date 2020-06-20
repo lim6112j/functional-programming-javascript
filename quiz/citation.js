@@ -27,6 +27,19 @@ var hIndex = function (citations) {
      * @param acc accumulator
      * [0, 1]
      * mid = 0 + 1 / 2 = 0
+     *
+     * python non-recursive code
+     *     n=len(c)
+    l,r=0,n-1
+    
+    while l<=r:
+        mid=(l+r)//2
+        
+        if c[mid]<n-mid:
+            l=mid+1
+        else:
+            r=mid-1
+    return n-l
      */
     var binary = function (s, e) {
         if (s === void 0) { s = 0; }
