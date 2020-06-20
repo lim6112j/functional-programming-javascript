@@ -34,7 +34,7 @@ Input: n = 4, k = 9
 
 Output: "2314"
  */
-function getPermutation(num, k) {
+function getPermutationHeap(num, k) {
     var list = new Array(num);
     var output = [];
     for (var i = 0; i < list.length; i++) {
@@ -45,12 +45,12 @@ function getPermutation(num, k) {
         arrToSwap[idxA] = arrToSwap[idxB];
         arrToSwap[idxB] = temp;
     };
-    var permute = function (n, heapArr) {
+    var permuteHeap = function (n, heapArr) {
         if (n === 1) {
             output.push(heapArr.slice());
             return;
         }
-        permute(n - 1, heapArr);
+        permuteHeap(n - 1, heapArr);
         for (var i = 0; i < n - 1; i++) {
             if (n % 2 === 0) {
                 swap(heapArr, i, n - 1);
@@ -58,13 +58,13 @@ function getPermutation(num, k) {
             else {
                 swap(heapArr, 0, n - 1);
             }
-            permute(n - 1, heapArr);
+            permuteHeap(n - 1, heapArr);
         }
     };
-    permute(num, list.slice());
+    permuteHeap(num, list.slice());
     return output;
 }
 ;
 console.time('permutation');
-console.log(getPermutation(3, 3));
+console.log(getPermutationHeap(3, 3));
 console.timeEnd('permutation');

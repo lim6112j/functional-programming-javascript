@@ -35,7 +35,7 @@ Input: n = 4, k = 9
 Output: "2314"
  */
 
-function getPermutation(num: number, k: number): number[] {
+function getPermutationHeap(num: number, k: number): number[] {
   let list = new Array(num)
   const output: any[] = []
   for (let i = 0; i < list.length; i++) {
@@ -46,24 +46,24 @@ function getPermutation(num: number, k: number): number[] {
     arrToSwap[idxA] = arrToSwap[idxB]
     arrToSwap[idxB] = temp
   }
-  const permute = (n: number, heapArr:number[]): void => {
+  const permuteHeap = (n: number, heapArr:number[]): void => {
     if(n === 1) {
       output.push(heapArr.slice())
       return
     }
-    permute(n-1, heapArr)
+    permuteHeap(n-1, heapArr)
     for (let i = 0; i < n-1; i++) {
       if(n % 2 === 0) {
         swap(heapArr, i, n-1)
       } else {
         swap(heapArr, 0, n-1)
       }
-      permute(n-1, heapArr)
+      permuteHeap(n-1, heapArr)
     }
   }
-  permute(num, list.slice())
+  permuteHeap(num, list.slice())
   return output
 };
 console.time('permutation')
-console.log(getPermutation(3,3))
+console.log(getPermutationHeap(3,3))
 console.timeEnd('permutation')
