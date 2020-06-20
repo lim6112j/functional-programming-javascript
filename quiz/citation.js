@@ -14,12 +14,31 @@ var ascendOrd = function (list) {
 var hIndex = function (citations) {
     var len = citations.length;
     var asd = ascendOrd(citations);
-    var hh = function (i) {
+    var recursive = function (i) {
+        if (i === void 0) { i = 0; }
         if (i === len)
             return 0;
-        return citations[i] >= len - i ? len - i : hh(i + 1);
+        return citations[i] >= len - i ? len - i : recursive(i + 1);
     };
-    return hh(0);
+    /**
+     *
+     * @param s start index
+     * @param e end index
+     * @param acc accumulator
+     * [0, 1]
+     * mid = 0 + 1 / 2 = 0
+     */
+    var binary = function (s, e) {
+        if (s === void 0) { s = 0; }
+        if (e === void 0) { e = len - 1; }
+        var mid = Math.floor((s + e) / 2);
+        return s <= e ? citations[mid] < len - mid ? binary(mid + 1, e)
+            : citations[mid] >= len - mid ? binary(s, mid - 1)
+                : Math.min(citations[mid], len - mid)
+            : len - s;
+    };
+    // return recursive()
+    return binary();
 };
 console.log(hIndex([0])); // should 0
 console.log(hIndex([1])); // should 1

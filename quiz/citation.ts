@@ -14,11 +14,27 @@ var ascendOrd = function (list: number[]): number[] {
 var hIndex = function(citations: number[]):number {
     const len = citations.length
     let asd = ascendOrd(citations);
-    const hh = (i: number): number => {
+    const recursive = (i: number = 0): number => {
       if(i === len) return 0
-      return citations[i] >= len  - i ? len  - i : hh(i+1)
+      return citations[i] >= len  - i ? len  - i : recursive(i+1)
     }
-    return hh(0)
+    /**
+     * 
+     * @param s start index
+     * @param e end index
+     * @param acc accumulator
+     * [0, 1]
+     * mid = 0 + 1 / 2 = 0
+     */
+    const binary = (s: number = 0, e: number = len -1 ): number => {
+      const mid = Math.floor((s+e)/2)
+      return s <= e ? citations[mid] < len - mid ? binary(mid + 1, e)
+      : citations[mid] >= len - mid ? binary(s, mid - 1)
+      : Math.min(citations[mid], len-mid)
+      : len - s
+    }
+    // return recursive()
+    return binary()
 };
 
 console.log(hIndex([0])) // should 0
