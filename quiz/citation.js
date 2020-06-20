@@ -45,10 +45,10 @@ var hIndex = function (citations) {
         if (s === void 0) { s = 0; }
         if (e === void 0) { e = len - 1; }
         var mid = Math.floor((s + e) / 2);
-        return s <= e ? citations[mid] < len - mid ? binary(mid + 1, e)
-            : citations[mid] >= len - mid ? binary(s, mid - 1)
-                : Math.min(citations[mid], len - mid)
-            : len - s;
+        return s > e ? len - s
+            : citations[mid] < len - mid ? binary(mid + 1, e)
+                : citations[mid] >= len - mid ? binary(s, mid - 1)
+                    : Math.min(citations[mid], len - mid);
     };
     // return recursive()
     return binary();

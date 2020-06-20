@@ -41,10 +41,10 @@ var hIndex = function(citations: number[]):number {
      */
     const binary = (s: number = 0, e: number = len -1 ): number => {
       const mid = Math.floor((s+e)/2)
-      return s <= e ? citations[mid] < len - mid ? binary(mid + 1, e)
+      return s > e ? len -s 
+              : citations[mid] < len - mid ? binary(mid + 1, e)
               : citations[mid] >= len - mid ? binary(s, mid - 1)
               : Math.min(citations[mid], len-mid)
-            : len - s
     }
     // return recursive()
     return binary()
