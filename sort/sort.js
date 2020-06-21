@@ -18,37 +18,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var R = __importStar(require("ramda"));
-var lodash_1 = __importDefault(require("lodash"));
-var head = lodash_1.default.head;
-var tail = lodash_1.default.tail;
-var quicksort = function (_a) {
-    var head = _a[0], tail = _a.slice(1);
-    return head === undefined ? [] : __spreadArrays(quicksort(__spreadArrays(tail.filter(function (a) { return a <= head; }))), [head], quicksort(__spreadArrays(tail.filter(function (a) { return a > head; }))));
-};
+const R = __importStar(require("ramda"));
+const lodash_1 = __importDefault(require("lodash"));
+const head = lodash_1.default.head;
+const tail = lodash_1.default.tail;
+const quicksort = ([head, ...tail]) => head === undefined ? [] :
+    [...quicksort([...tail.filter(a => a <= head)]), head, ...quicksort([...tail.filter(a => a > head)])];
 console.log(quicksort([2, 4, 1, 7, 3]));
-var atomize = function (arr) { return lodash_1.default(arr)
-    .map(function (v) { return [v]; })
-    .value(); };
+const atomize = (arr) => lodash_1.default(arr)
+    .map(v => [v])
+    .value();
 console.log(atomize([4, 2, 1, 5]));
-var compare = function (pL, pR) {
-    var p1 = pL.sort(function (a, b) { return a - b; });
-    var p2 = pR.sort(function (a, b) { return a - b; });
+const compare = (pL, pR) => {
+    const p1 = pL.sort((a, b) => a - b);
+    const p2 = pR.sort((a, b) => a - b);
     return p1.length === 0 && p2.length === 0 ? []
         : p1.length === 0 ? p2
             : p2.length === 0 ? p1
-                : head(p1) <= head(p2) ? __spreadArrays([head(p1)], compare(tail(p1), p2)) : __spreadArrays([head(p2)], compare(p1, tail(p2)));
+                : head(p1) <= head(p2) ? [head(p1), ...compare(tail(p1), p2)]
+                    : [head(p2), ...compare(p1, tail(p2))];
 };
-var compare2 = R.curryN(2, compare);
+const compare2 = R.curryN(2, compare);
 console.log(compare([2, 1], [6, 0, 2]));
+//# sourceMappingURL=sort.js.map

@@ -35,6 +35,7 @@ Input: n = 4, k = 9
 Output: "2314"
  */
 
+
 function getPermutationHeap(num: number, k: number): number[] {
   let list = new Array(num)
   const output: any[] = []
@@ -64,6 +65,64 @@ function getPermutationHeap(num: number, k: number): number[] {
   permuteHeap(num, list.slice())
   return output
 };
+function getPermutationLexical(n: number, k: number): string {
+  const original = new Array(n)
+  const output: number[][] = []
+  for (let i = 0; i < original.length; i++) {
+    original[i] = i + 1
+  }
+  // console.log(original)
+  const swap = (arrToSwap: number[], idxA:number, idxB: number): void => {
+    const temp = arrToSwap[idxA]
+    arrToSwap[idxA] = arrToSwap[idxB]
+    arrToSwap[idxB] = temp
+  }
+  const compare = (arrToCompare: number[], idxA: number, idxB: number): number => {
+    return arrToCompare[idxA] - arrToCompare[idxB]
+  }
+  const findCeil = (arr: number[], first: number, begin: number, end: number): number => {
+    let ceilIndex = begin
+    for (let i = begin + 1; i <= end; i++) {
+      if(arr[i] > first && arr[i] < arr[ceilIndex]) {
+        ceilIndex = i
+      }
+    }
+    return ceilIndex
+  }
+  const permute = (__arr: number[] = original, __idx: number = k): any => {
+    const len = __arr.length
+    let arr = __arr.slice()
+    let isFinished = false;
+    let output: number[][] =[]
+    while(!isFinished){
+      let i=0;
+      output.push(arr.slice())
+      for (let idx = len - 2; idx >= -1 ; idx--) {
+        i=idx
+        if(arr[idx] < arr[idx+1]) {
+          break;
+        }
+      }
+      if(i === -1) {
+        isFinished = true
+      } else {
+        const ceilIndex = findCeil(arr, arr[i], i+1, len - 1)
+        // console.log(i, ceilIndex)
+        swap(arr, i, ceilIndex)
+
+        arr = arr.slice(0, i+1).concat(arr.slice(i+1).sort((a,b)=> a-b))
+
+      }
+    }
+    return output
+
+  }
+  return permute(original)[k-1] ? permute(original)[k-1].toString().replace(/,/g, "") : ""
+}
+// console.time('permutation')
+// console.log(getPermutationHeap(3,3))
+// console.timeEnd('permutation')
+
 console.time('permutation')
-console.log(getPermutationHeap(3,3))
+console.log(getPermutationLexical(9,199269))
 console.timeEnd('permutation')

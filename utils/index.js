@@ -1,8 +1,27 @@
 "use strict";
-exports.__esModule = true;
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.subscriber = exports.logl = exports.proLog = exports.log = void 0;
-var util = require("util");
-var log = (function () {
+const util = __importStar(require("util"));
+const log = (function () {
     return function (msg) {
         return function (v) {
             console.log(msg, " => ", v);
@@ -10,7 +29,7 @@ var log = (function () {
     };
 })();
 exports.log = log;
-var logl = (function () {
+const logl = (function () {
     return function (msg) {
         return function (v) {
             console.log(msg, " => ", util.inspect(v, true, 10, true));
@@ -18,7 +37,7 @@ var logl = (function () {
     };
 })();
 exports.logl = logl;
-var proLog = (function () {
+const proLog = (function () {
     return function (msg) {
         return function (v) {
             v.then(log(msg));
@@ -26,9 +45,9 @@ var proLog = (function () {
     };
 })();
 exports.proLog = proLog;
-var subscriber = function (f) { return function (end) {
-    var i = 0;
-    var obj = {
+const subscriber = (f) => function (end) {
+    let i = 0;
+    const obj = {
         next: function (v) {
             log('Subscription value')(v);
             if (f)
@@ -40,5 +59,6 @@ var subscriber = function (f) { return function (end) {
             f(); log('completed')(this); }
     };
     return obj;
-}; };
+};
 exports.subscriber = subscriber;
+//# sourceMappingURL=index.js.map

@@ -65,6 +65,63 @@ function getPermutationHeap(num, k) {
     return output;
 }
 ;
+function getPermutationLexical(n, k) {
+    var original = new Array(n);
+    var output = [];
+    for (var i = 0; i < original.length; i++) {
+        original[i] = i + 1;
+    }
+    // console.log(original)
+    var swap = function (arrToSwap, idxA, idxB) {
+        var temp = arrToSwap[idxA];
+        arrToSwap[idxA] = arrToSwap[idxB];
+        arrToSwap[idxB] = temp;
+    };
+    var compare = function (arrToCompare, idxA, idxB) {
+        return arrToCompare[idxA] - arrToCompare[idxB];
+    };
+    var findCeil = function (arr, first, begin, end) {
+        var ceilIndex = begin;
+        for (var i = begin + 1; i <= end; i++) {
+            if (arr[i] > first && arr[i] < arr[ceilIndex]) {
+                ceilIndex = i;
+            }
+        }
+        return ceilIndex;
+    };
+    var permute = function (__arr, __idx) {
+        if (__arr === void 0) { __arr = original; }
+        if (__idx === void 0) { __idx = k; }
+        var len = __arr.length;
+        var arr = __arr.slice();
+        var isFinished = false;
+        var output = [];
+        while (!isFinished) {
+            var i = 0;
+            output.push(arr.slice());
+            for (var idx = len - 2; idx >= -1; idx--) {
+                i = idx;
+                if (arr[idx] < arr[idx + 1]) {
+                    break;
+                }
+            }
+            if (i === -1) {
+                isFinished = true;
+            }
+            else {
+                var ceilIndex = findCeil(arr, arr[i], i + 1, len - 1);
+                // console.log(i, ceilIndex)
+                swap(arr, i, ceilIndex);
+                arr = arr.slice(0, i + 1).concat(arr.slice(i + 1).sort(function (a, b) { return a - b; }));
+            }
+        }
+        return output;
+    };
+    return permute(original)[k - 1] ? permute(original)[k - 1].toString().replace(/,/g, "") : "";
+}
+// console.time('permutation')
+// console.log(getPermutationHeap(3,3))
+// console.timeEnd('permutation')
 console.time('permutation');
-console.log(getPermutationHeap(3, 3));
+console.log(getPermutationLexical(9, 199269));
 console.timeEnd('permutation');

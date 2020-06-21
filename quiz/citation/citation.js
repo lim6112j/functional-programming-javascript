@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @param {number[]} citations set to be of ascending order
  * @return {number}
@@ -8,14 +10,14 @@
  * [0, 2] => 1
  * [0, 1, 3, 5, 6] => 3
  */
+const util_1 = require("../../utils/util");
 var ascendOrd = function (list) {
-    return list.sort(function (a, b) { return a - b; });
+    return list.sort((a, b) => a - b);
 };
 var hIndex = function (citations) {
-    var len = citations.length;
-    var asd = ascendOrd(citations);
-    var recursive = function (i) {
-        if (i === void 0) { i = 0; }
+    const len = citations.length;
+    let asd = ascendOrd(citations);
+    const recursive = (i = 0) => {
         if (i === len)
             return 0;
         return citations[i] >= len - i ? len - i : recursive(i + 1);
@@ -41,10 +43,8 @@ var hIndex = function (citations) {
             r=mid-1
     return n-l
      */
-    var binary = function (s, e) {
-        if (s === void 0) { s = 0; }
-        if (e === void 0) { e = len - 1; }
-        var mid = Math.floor((s + e) / 2);
+    const binary = (s = 0, e = len - 1) => {
+        const mid = Math.floor((s + e) / 2);
         return s > e ? len - s
             : citations[mid] < len - mid ? binary(mid + 1, e)
                 : citations[mid] >= len - mid ? binary(s, mid - 1)
@@ -66,3 +66,17 @@ console.log(hIndex([3, 0, 6, 1, 5])); // should 3
 console.log(hIndex([7, 7, 7, 7, 7, 7, 7])); // should 7
 console.log(hIndex([1, 4, 7, 9])); // should 3
 console.timeEnd('hindex');
+// test
+util_1.header("hIndex test starting");
+util_1.assert(hIndex([0]) === 0, "index([0]) should 0");
+util_1.assert(hIndex([1]) === 1, "index([1]) should 1");
+util_1.assert(hIndex([100]) === 1, "hIndex([100]) should 1");
+util_1.assert(hIndex([0, 0]) === 0, "hIndex([0,0]) should 0");
+util_1.assert(hIndex([0, 1]) === 1, "hIndex([0,1]) should 1");
+util_1.assert(hIndex([0, 2]) === 1, "hIndex([0, 2]) should 1");
+util_1.assert(hIndex([11, 15]) === 2, "hIndex([11, 15]) should 2");
+util_1.assert(hIndex([0, 1, 3, 5, 6]) === 3, "[0, 1, 3 ,5,6]) should 3");
+util_1.assert(hIndex([3, 0, 6, 1, 5]) === 3, "hIndex([3,0,6,1,5]) should 3");
+util_1.assert(hIndex([7, 7, 7, 7, 7, 7, 7]) === 7, "hIndex([7,7,7,7,7,7,7]) should 7");
+util_1.assert(hIndex([1, 4, 7, 9]) === 3, "hIndex([1, 4, 7, 9]) should 3");
+//# sourceMappingURL=citation.js.map
