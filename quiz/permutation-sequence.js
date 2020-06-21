@@ -1,3 +1,4 @@
+"use strict";
 /**
  * The set [1,2,3,...,n] contains a total of n! unique permutations.
 
@@ -35,23 +36,23 @@ Input: n = 4, k = 9
 Output: "2314"
  */
 function getPermutationHeap(num, k) {
-    var list = new Array(num);
-    var output = [];
-    for (var i = 0; i < list.length; i++) {
+    let list = new Array(num);
+    const output = [];
+    for (let i = 0; i < list.length; i++) {
         list[i] = i + 1;
     }
-    var swap = function (arrToSwap, idxA, idxB) {
-        var temp = arrToSwap[idxA];
+    const swap = (arrToSwap, idxA, idxB) => {
+        const temp = arrToSwap[idxA];
         arrToSwap[idxA] = arrToSwap[idxB];
         arrToSwap[idxB] = temp;
     };
-    var permuteHeap = function (n, heapArr) {
+    const permuteHeap = (n, heapArr) => {
         if (n === 1) {
             output.push(heapArr.slice());
             return;
         }
         permuteHeap(n - 1, heapArr);
-        for (var i = 0; i < n - 1; i++) {
+        for (let i = 0; i < n - 1; i++) {
             if (n % 2 === 0) {
                 swap(heapArr, i, n - 1);
             }
@@ -66,40 +67,40 @@ function getPermutationHeap(num, k) {
 }
 ;
 function getPermutationLexical(n, k) {
-    var original = new Array(n);
-    var output = [];
-    for (var i = 0; i < original.length; i++) {
+    const original = new Array(n);
+    const output = [];
+    for (let i = 0; i < original.length; i++) {
         original[i] = i + 1;
     }
     // console.log(original)
-    var swap = function (arrToSwap, idxA, idxB) {
-        var temp = arrToSwap[idxA];
+    const swap = (arrToSwap, idxA, idxB) => {
+        const temp = arrToSwap[idxA];
         arrToSwap[idxA] = arrToSwap[idxB];
         arrToSwap[idxB] = temp;
     };
-    var compare = function (arrToCompare, idxA, idxB) {
+    const compare = (arrToCompare, idxA, idxB) => {
         return arrToCompare[idxA] - arrToCompare[idxB];
     };
-    var findCeil = function (arr, first, begin, end) {
-        var ceilIndex = begin;
-        for (var i = begin + 1; i <= end; i++) {
+    const findCeil = (arr, first, begin, end) => {
+        let ceilIndex = begin;
+        for (let i = begin + 1; i <= end; i++) {
             if (arr[i] > first && arr[i] < arr[ceilIndex]) {
                 ceilIndex = i;
             }
         }
         return ceilIndex;
     };
-    var permute = function (__arr, __idx) {
-        if (__arr === void 0) { __arr = original; }
-        if (__idx === void 0) { __idx = k; }
-        var len = __arr.length;
-        var arr = __arr.slice();
-        var isFinished = false;
-        var output = [];
+    const quicksort = ([head, ...tail]) => head === undefined ? [] :
+        [...quicksort([...tail.filter(a => a <= head)]), head, ...quicksort([...tail.filter(a => a > head)])];
+    const permute = (__arr = original, __idx = k) => {
+        const len = __arr.length;
+        let arr = __arr.slice();
+        let isFinished = false;
+        let output = [];
         while (!isFinished) {
-            var i = 0;
+            let i = 0;
             output.push(arr.slice());
-            for (var idx = len - 2; idx >= -1; idx--) {
+            for (let idx = len - 2; idx >= -1; idx--) {
                 i = idx;
                 if (arr[idx] < arr[idx + 1]) {
                     break;
@@ -109,10 +110,10 @@ function getPermutationLexical(n, k) {
                 isFinished = true;
             }
             else {
-                var ceilIndex = findCeil(arr, arr[i], i + 1, len - 1);
+                const ceilIndex = findCeil(arr, arr[i], i + 1, len - 1);
                 // console.log(i, ceilIndex)
                 swap(arr, i, ceilIndex);
-                arr = arr.slice(0, i + 1).concat(arr.slice(i + 1).sort(function (a, b) { return a - b; }));
+                arr = arr.slice(0, i + 1).concat(quicksort(arr.slice(i + 1)));
             }
         }
         return output;
@@ -125,3 +126,4 @@ function getPermutationLexical(n, k) {
 console.time('permutation');
 console.log(getPermutationLexical(9, 199269));
 console.timeEnd('permutation');
+//# sourceMappingURL=permutation-sequence.js.map

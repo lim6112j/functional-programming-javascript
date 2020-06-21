@@ -89,6 +89,9 @@ function getPermutationLexical(n: number, k: number): string {
     }
     return ceilIndex
   }
+  const quicksort = ([head, ...tail]: any[]):any => head === undefined ? [] : 
+  [...quicksort([...tail.filter(a => a <= head)]), head, ...quicksort([...tail.filter(a => a > head)])]
+
   const permute = (__arr: number[] = original, __idx: number = k): any => {
     const len = __arr.length
     let arr = __arr.slice()
@@ -109,9 +112,7 @@ function getPermutationLexical(n: number, k: number): string {
         const ceilIndex = findCeil(arr, arr[i], i+1, len - 1)
         // console.log(i, ceilIndex)
         swap(arr, i, ceilIndex)
-
-        arr = arr.slice(0, i+1).concat(arr.slice(i+1).sort((a,b)=> a-b))
-
+        arr = arr.slice(0, i+1).concat(quicksort(arr.slice(i+1)))
       }
     }
     return output
