@@ -9,9 +9,13 @@
     "program": "${workspaceFolder}/quiz/permutation-sequence.ts",
     "request": "launch",
     "skipFiles": [
-      "<node_internals>/**"
+      "<node_internals>/**",
     ],
-    // "preLaunchTask": "tsc: build - tsconfig.json",
+    "preLaunchTask": "tsc: build - tsconfig.json",
+    "outFiles": [
+      "${workspaceFolder}/quiz/permutation-sequence.js",
+      "!**/node_modules/**"
+    ],
     "type": "pwa-node"
   }
   ],
