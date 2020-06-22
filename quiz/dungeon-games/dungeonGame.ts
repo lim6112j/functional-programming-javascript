@@ -34,20 +34,19 @@ function calculateMinimumHP(dungeon: number[][]): number {
   let health: number[][] = [] // [[x,y,h,c]]
   let isFinished = false
   let tryNum = 0
-  health[tryNum].push(1,2)
   console.log(health)
-  // while(!isFinished) {
-  //   if(x < R && y < C) {
-      
-  //   } else if(x === R && y < C) {
+  while(!isFinished) {
+    if(x < R && y < C) {
+      health.push()
+    } else if(x === R && y < C) {
 
-  //   } else if(x < R && y === C) {
+    } else if(x < R && y === C) {
 
-  //   } else {
-  //     isFinished = true
-  //   }
-  // }
-  // return 1;
+    } else {
+      isFinished = true
+    }
+  }
+  return 1;
 };
 header("Dungen-game Started")
 console.time('dungeon')
