@@ -1,24 +1,23 @@
-import { from, of, asyncScheduler,animationFrame, animationFrameScheduler, interval } from 'rxjs';
-import axios from 'axios'
-import { toArray, groupBy, scan, takeWhile, reduce, flatMap, tap, map, switchMap, filter, catchError, fromPromise, subscribeOn, observeOn, take } from 'rxjs/operators'
-import { fromFetch } from 'rxjs/fetch';
+import { interval } from "rxjs";
+import { tap, filter } from "rxjs/operators";
 
-import {log, proLog, logl} from './utils';
-const subscriber = function(end) {
+import { log, logl } from "./utils";
+const subscriber = function (end) {
   let i = 0;
-  const obj =   {
-    next: function(v) {
-      logl('subs value')(v)
+  const obj = {
+    next: function (v) {
+      logl("subs value")(v);
       i++ === end ? this.unsubscribe() : null;
     },
-    error: log('error'),
-    complete: function(){logl('completed')(this)}
-  }
+    error: log("error"),
+    complete: function () {
+      logl("completed")(this);
+    },
+  };
   return obj;
-} 
-// async data 
+};
+// async data
 // console.log('################promise chaining')
-
 
 // const user$ = from(axios.get('https://jsonplaceholder.typicode.com/users')).pipe(
 //   switchMap(res => {
@@ -107,8 +106,8 @@ const subscriber = function(end) {
 // )
 // const subs =obs$.subscribe(subscriber)
 const obs$ = interval(100).pipe(
-  filter(v => v % 3 === 0),
-  tap(log('tap value'))
+  filter((v) => v % 3 === 0),
+  tap(log("tap value"))
   // tap(log('interval value'))
 );
 const subs = obs$.subscribe(subscriber(5));

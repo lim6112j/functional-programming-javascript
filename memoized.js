@@ -1,5 +1,5 @@
 // import _ from 'lodash'
-const log = (msg) => (v) => console.log(msg ,' => ', v)
+const log = (msg) => (v) => console.log(msg, " => ", v);
 // const syncWait = ms => {
 //   const end = Date.now() + ms
 //   while (Date.now() < end) continue
@@ -121,13 +121,13 @@ const log = (msg) => (v) => console.log(msg ,' => ', v)
 // log('iife')(IIFE.method())
 
 // wrong in strict mode
-const IIFE2 = (function() {
-  this.method = function() {
+const IIFE2 = (function () {
+  this.method = function () {
     // console.log(this);
-    console.log(arguments)
+    console.log(arguments);
     return this;
-  }
+  };
   return this;
-})()
+})();
 
-log('iife2')(IIFE2.method(1,2,3,4))
+log("iife2")(IIFE2.method(1, 2, 3, 4));

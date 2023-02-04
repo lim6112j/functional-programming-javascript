@@ -1,11 +1,11 @@
-import Axios from 'axios';
-import { forkJoin, from } from 'rxjs';
-import { tap, filter, map, flatMap, switchMap, reduce } from 'rxjs/operators';
-import _ from 'lodash';
-import * as R from 'ramda';
-import {log, proLog, logl} from '../utils';
+import Axios from "axios";
+import { forkJoin, from } from "rxjs";
+import { tap, filter, map, flatMap, switchMap, reduce } from "rxjs/operators";
+import _ from "lodash";
+import * as R from "ramda";
+import { log, proLog, logl } from "../utils";
 // var users = null;
-const url = 'http://localhost:3000/users/';
+const url = "http://localhost:3000/users/";
 // function showUsers(users) {
 //   console.log(users);
 // };
@@ -23,8 +23,8 @@ const url = 'http://localhost:3000/users/';
 // Axios(url)
 // .then(results => {
 //   const users=results.data;
-//   users.sort((a,b) => 
-//   a.id < b.id ? -1 
+//   users.sort((a,b) =>
+//   a.id < b.id ? -1
 //   : a.id > b.id ? 1
 //   : 0
 //   );
@@ -35,7 +35,7 @@ const url = 'http://localhost:3000/users/';
 //       Axios(`${url}${user.id}`)
 //       .then(res => {
 //         const user = res.data;
-//         showUsers(user, user.grades) 
+//         showUsers(user, user.grades)
 //       })
 //       .catch(err => console.log(err))
 //     }
@@ -46,12 +46,12 @@ const url = 'http://localhost:3000/users/';
  * nested callback chain with Promise Monad
  */
 function showUsers(T, P) {
-  console.log(T.name, " has won ", P, "points")
+  console.log(T.name, " has won ", P, "points");
 }
 function run(...functions) {
   return (initial) => {
     return functions.reduce((prevReturn, fn) => fn(prevReturn), initial);
-  }
+  };
 }
 // const fns = run (
 //   data => data.data,
@@ -62,13 +62,15 @@ function run(...functions) {
 //   }
 // ));
 
-
 // Axios.get(url)
 // .then(fns)
 // .catch(err => console.log(err))
 const then = R.curry((f, promise) => promise.then(f));
-const catchF = R.curry((f, promise) => {promise.catch(f); return promise})
-const errLog = _.partial(console.log, '###### Promise Failed ######');
+const catchF = R.curry((f, promise) => {
+  promise.catch(f);
+  return promise;
+});
+const errLog = _.partial(console.log, "###### Promise Failed ######");
 const axiosInner = (user) => Axios.get(`${url}${user.id}`);
 const chain = R.curry((f, x) => f(x));
 
@@ -98,25 +100,32 @@ const chain = R.curry((f, x) => f(x));
 // showUser2(url)
 
 /**
- * 
+ *
  * @param {*} end next 호출 갯수로 unsubscribe 실행.
  */
-const subscriber = function(end) {
+const subscriber = function (end) {
   let i = 0;
-  const obj =   {
-    next: function(v) {
-      log('subs value')(v)
+  const obj = {
+    next: function (v) {
+      log("subs value")(v);
       i++ === end ? this.unsubscribe() : null;
     },
-    error: log('error'),
-    complete: function(){log('completed')(this)}
-  }
+    error: log("error"),
+    complete: function () {
+      log("completed")(this);
+    },
+  };
   return obj;
-} 
-from(Axios.get(url)).pipe(
-  flatMap(v => v.data),
-  filter(v => v.country === 'kr'),
-  flatMap(v => from(Axios.get(`${url}${v.id}`))),
-  reduce((acc, v) => {acc.push(v.data); return acc;},[]),
-  switchMap(v => v.sort((a,b) => a.id < b.id))
-).subscribe(subscriber(10));
+};
+from(Axios.get(url))
+  .pipe(
+    flatMap((v) => v.data),
+    filter((v) => v.country === "kr"),
+    flatMap((v) => from(Axios.get(`${url}${v.id}`))),
+    reduce((acc, v) => {
+      acc.push(v.data);
+      return acc;
+    }, []),
+    switchMap((v) => v.sort((a, b) => a.id < b.id))
+  )
+  .subscribe(subscriber(10));

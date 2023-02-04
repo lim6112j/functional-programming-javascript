@@ -1,64 +1,64 @@
 export default class Maybe {
   static just(a) {
-    return new Just(a)
+    return new Just(a);
   }
   static nothing() {
-    return new Nothing()
+    return new Nothing();
   }
   static fromNullable(a) {
-    return a !== null ? Maybe.just(a) : Maybe.nothing()
+    return a !== null ? Maybe.just(a) : Maybe.nothing();
   }
   static of(a) {
-    return this.just(a)
+    return this.just(a);
   }
   get isNothing() {
-    return false
+    return false;
   }
   get isJust() {
-    return false
+    return false;
   }
 }
 class Just extends Maybe {
   constructor(value) {
     super();
-    this._value = value
+    this._value = value;
   }
   get value() {
-    return this._value
+    return this._value;
   }
   map(f) {
-    return Maybe.fromNullable(f(this._value))
+    return Maybe.fromNullable(f(this._value));
   }
   getOrElse() {
-    return this._value
+    return this._value;
   }
   filter(f) {
-    Maybe.fromNullable(f(this._value) ? this._value : null)
+    Maybe.fromNullable(f(this._value) ? this._value : null);
   }
   chain(f) {
-    return f(this._value)
+    return f(this._value);
   }
   toString() {
-    return `Maybe.Just(${this._value})`
+    return `Maybe.Just(${this._value})`;
   }
 }
 class Nothing extends Maybe {
   map(f) {
-    return this
+    return this;
   }
   get value() {
-    throw new TypeError("Nothing 값을 가져올 수 없습니다.")
+    throw new TypeError("Nothing 값을 가져올 수 없습니다.");
   }
   getOrElse(other) {
-    return other
+    return other;
   }
   filter(f) {
-    return this._value
+    return this._value;
   }
   chain(f) {
-    return this
+    return this;
   }
   toString() {
-    return `Maybe.Nothing`
+    return "Maybe.Nothing";
   }
 }
